@@ -22,39 +22,43 @@
 ;; https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/Presentation
 ;; https://www.w3.org/TR/css-color-3/#svg-color
 
-(defn cell [{number :n, letter :l} & {:keys [pos]}]
+(defn cell [{number :n, letter :l} & {:keys [pos size]}]
   (let [[fill opacity] (if (every? nil? [number letter])
                          ["black" "1.0"] ["white" "0.1"])
         [x y] pos
-        sz 60
-        with-offset  #(str (+ (* sz %1) %2))
+        with-offset  #(str (+ (* size %1) %2))
         with-x-offset (partial with-offset x)
-        with-y-offset (partial with-offset y)]
+        with-y-offset (partial with-offset y)
+        number-size   (str (* 0.2 size))
+        letter-size   (str (* 0.5 size))]
     [:g
-     [:rect {:width "60" :height "60" :x (with-x-offset 3) :y (with-y-offset 3)
+     [:rect {:width (str size) :height (str size)
+             :x (with-x-offset 3) :y (with-y-offset 3)
              :stroke "black" :stroke-width "3"
              :fill fill :fill-opacity opacity}]
      [:text {:x (with-x-offset 6) :y (with-y-offset 15) :font-family "monospace"
-             :font-size "12" :fill "darkgray"}
+             :font-size number-size :fill "darkgray"}
       number]
      [:text {:x (with-x-offset 34) :y (with-y-offset 44)
-             :font-family "sans-serif" :font-size "30"
+             :font-family "sans-serif" :font-size letter-size
              :fill "black" :text-anchor "middle"}
       letter]]))
 
-(defn crossword [crossword-data]
-  (let [with-index (partial map-indexed vector)]
+(defn crossword [crossword-data & {:keys [size]}]
+  (let [with-index (partial map-indexed vector)
+        cell-size  (/ size (count (first crossword-data)))
+        board-size (str (+ size 6))]
     [:svg  {:version "1.1" :baseProfile "full" :xmlns "http://www.w3.org/2000/svg"
-            :width "306" :height "306"}
+            :width board-size :height board-size}
      (for [[y row]  (with-index crossword-data)
            [x item] (with-index row)]
        ^{:key (str (:l item) (:n item) x y)}
-       [cell item :pos [x y]])]))
+       [cell item :pos [x y] :size cell-size])]))
 
 (defn puzzle-ui [crossword-data]
   [:div
    [:h1 (:crossword-name @app-state)]
-   [crossword crossword-data]])
+   [crossword crossword-data :size 300]])
 
 (defn mount [el]
   (reagent/render-component [puzzle-ui example-crossword] el))
