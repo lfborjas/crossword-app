@@ -1,7 +1,7 @@
 (ns ^:figwheel-hooks crossword.app
   (:require
    [goog.dom :as gdom]
-   [reagent.core :as reagent :refer [atom]]))
+   [reagent.core :as reagent :refer [atom as-element]]))
 
 ;; define your app data so that it doesn't get over-written on reload
 (defonce app-state (atom {:crossword-name "NYT Daily Mini: Sunday, October 28"}))
@@ -23,8 +23,8 @@
 ;; https://www.w3.org/TR/css-color-3/#svg-color
 
 (defn cell [{number :n, letter :l} & {:keys [pos]}]
-  (let [[fill opacity] (if (not-any? nil? [number letter])
-                         ["blue" "0.1"] ["black" "1.0"])
+  (let [[fill opacity] (if (every? nil? [number letter])
+                         ["black" "1.0"] ["white" "0.1"])
         [x y] pos
         sz 60
         with-offset  #(str (+ (* sz %1) %2))
@@ -43,15 +43,20 @@
       letter]]))
 
 (defn crossword [data]
-  (doseq [row data]
-    []))
+  (let [with-index (partial map-indexed vector)]
+    (for [[x row]  (with-index data)
+          [y item] (with-index row)]
+      [cell item :pos [x y]])))
 
 (defn puzzle-ui [crossword-data]
-  [:div
-   [:h1 (:crossword-name @app-state)]
-   [:svg  {:version "1.1" :baseProfile "full" :xmlns "http://www.w3.org/2000/svg"
-           :width "300" :height "300"}
-    [cell (-> crossword-data first second) :pos [2 0]]]])
+  (let [with-index (partial map-indexed vector)]
+    [:div
+     [:h1 (:crossword-name @app-state)]
+     [:svg  {:version "1.1" :baseProfile "full" :xmlns "http://www.w3.org/2000/svg"
+             :width "306" :height "306"}
+      (for [[y row]  (with-index crossword-data)
+            [x item] (with-index row)]
+        [cell item :pos [x y]])]]))
 
 (defn mount [el]
   (reagent/render-component [puzzle-ui example-crossword] el))
