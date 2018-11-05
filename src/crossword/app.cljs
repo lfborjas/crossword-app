@@ -22,16 +22,25 @@
 ;; https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/Presentation
 ;; https://www.w3.org/TR/css-color-3/#svg-color
 
-(defn cell [{number :n, letter :l}]
-  [:g
-   [:rect {:width "60" :height "60" :x "3" :y "3"
-           :stroke "black" :stroke-width "3" :fill "blue" :fill-opacity "0.1"}]
-   [:text {:x "6" :y "15" :font-family "monospace"
-           :font-size "12" :fill "darkgray"}
-    number]
-   [:text {:x "34" :y "44" :font-family "sans-serif" :font-size "30"
-           :fill "black" :text-anchor "middle"}
-    letter]])
+(defn cell [{number :n, letter :l} & {:keys [pos]}]
+  (let [[fill opacity] (if (not-any? nil? [number letter])
+                         ["blue" "0.1"] ["black" "1.0"])
+        [x y] pos
+        sz 60
+        with-offset  #(str (+ (* sz %1) %2))
+        with-x-offset (partial with-offset x)
+        with-y-offset (partial with-offset y)]
+    [:g
+     [:rect {:width "60" :height "60" :x (with-x-offset 3) :y (with-y-offset 3)
+             :stroke "black" :stroke-width "3"
+             :fill fill :fill-opacity opacity}]
+     [:text {:x (with-x-offset 6) :y (with-y-offset 15) :font-family "monospace"
+             :font-size "12" :fill "darkgray"}
+      number]
+     [:text {:x (with-x-offset 34) :y (with-y-offset 44)
+             :font-family "sans-serif" :font-size "30"
+             :fill "black" :text-anchor "middle"}
+      letter]]))
 
 (defn crossword [data]
   (doseq [row data]
@@ -42,7 +51,7 @@
    [:h1 (:crossword-name @app-state)]
    [:svg  {:version "1.1" :baseProfile "full" :xmlns "http://www.w3.org/2000/svg"
            :width "300" :height "300"}
-    [cell (-> crossword-data first second)]]])
+    [cell (-> crossword-data first second) :pos [2 0]]]])
 
 (defn mount [el]
   (reagent/render-component [puzzle-ui example-crossword] el))
