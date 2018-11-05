@@ -56,6 +56,7 @@
              :width "306" :height "306"}
       (for [[y row]  (with-index crossword-data)
             [x item] (with-index row)]
+        ^{:key (str (:l item) (:n item) x y)}
         [cell item :pos [x y]])]]))
 
 (defn mount [el]
