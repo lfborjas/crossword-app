@@ -1,12 +1,14 @@
-# crossword.app
+# Crossword App
 
-FIXME: Write a one-line description of your library/project.
+Learning Clojurescript and React by building a little interactive crossword filler.
 
-## Overview
-
-FIXME: Write a paragraph about the library/project and highlight its goals.
 
 ## Development
+
+*Note:* I'm using Emacs 25 and the latest CIDER, which ships with a `cider-jack-in-cljs` that connects to a figwheel-main nREPL _and_ gets compilation going, so I end up with a development flow that has an in-editor REPL _and_ live reloading of the HTML:
+
+![image](https://user-images.githubusercontent.com/82133/47980389-6e4ba400-e095-11e8-98c5-4deade7a6334.png)
+
 
 To get an interactive development environment run:
 
@@ -28,10 +30,3 @@ To create a production build run:
 
 	lein clean
 	lein fig:min
-
-
-## License
-
-Copyright © 2018 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
