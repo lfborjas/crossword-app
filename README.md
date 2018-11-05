@@ -7,7 +7,7 @@ Learning Clojurescript and React by building a little interactive crossword fill
 
 *Note:* I'm using Emacs 25 and the latest CIDER, which ships with a `cider-jack-in-cljs` that connects to a figwheel-main nREPL _and_ gets compilation going, so I end up with a development flow that has an in-editor REPL _and_ live reloading of the HTML:
 
-![image](https://user-images.githubusercontent.com/82133/47980389-6e4ba400-e095-11e8-98c5-4deade7a6334.png)
+![image](https://user-images.githubusercontent.com/82133/47980743-072eef00-e097-11e8-9bc9-a021d9cf61b4.png)
 
 
 To get an interactive development environment run:
