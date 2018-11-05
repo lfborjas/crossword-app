@@ -42,22 +42,19 @@
              :fill "black" :text-anchor "middle"}
       letter]]))
 
-(defn crossword [data]
+(defn crossword [crossword-data]
   (let [with-index (partial map-indexed vector)]
-    (for [[x row]  (with-index data)
-          [y item] (with-index row)]
-      [cell item :pos [x y]])))
+    [:svg  {:version "1.1" :baseProfile "full" :xmlns "http://www.w3.org/2000/svg"
+            :width "306" :height "306"}
+     (for [[y row]  (with-index crossword-data)
+           [x item] (with-index row)]
+       ^{:key (str (:l item) (:n item) x y)}
+       [cell item :pos [x y]])]))
 
 (defn puzzle-ui [crossword-data]
-  (let [with-index (partial map-indexed vector)]
-    [:div
-     [:h1 (:crossword-name @app-state)]
-     [:svg  {:version "1.1" :baseProfile "full" :xmlns "http://www.w3.org/2000/svg"
-             :width "306" :height "306"}
-      (for [[y row]  (with-index crossword-data)
-            [x item] (with-index row)]
-        ^{:key (str (:l item) (:n item) x y)}
-        [cell item :pos [x y]])]]))
+  [:div
+   [:h1 (:crossword-name @app-state)]
+   [crossword crossword-data]])
 
 (defn mount [el]
   (reagent/render-component [puzzle-ui example-crossword] el))
