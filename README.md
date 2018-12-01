@@ -30,3 +30,18 @@ To create a production build run:
 
 	lein clean
 	lein fig:min
+
+
+## References
+
+* https://www.w3schools.com/graphics/svg_rect.asp
+* https://www.w3schools.com/graphics/tryit.asp?filename=trysvg_text
+* https://stackoverflow.com/questions/6725288/svg-text-inside-rect
+* https://figwheel.org/docs/emacs.html
+* https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Getting_Started
+* https://developer.mozilla.org/en-US/docs/Web/SVG/Element/foreignObject
+* https://github.com/reagent-project/reagent/blob/master/doc/UsingSquareBracketsInsteadOfParens.md
+* https://www.w3.org/Graphics/SVG/IG/resources/svgprimer.html#coordinate
+* https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/SVG_In_HTML_Introduction
+* http://reagent-project.github.io/
+* 

@@ -36,8 +36,9 @@
              :x (with-x-offset 3) :y (with-y-offset 3)
              :stroke "black" :stroke-width "3"
              :fill fill :fill-opacity opacity}]
-     [:text {:x (with-x-offset 6) :y (with-y-offset 15) :font-family "monospace"
-             :font-size number-size :fill "darkgray"}
+     [:text {:x (with-x-offset 6) :y (with-y-offset 15)
+             :font-family "monospace" :font-size number-size
+             :fill "darkgray"}
       number]
      [:text {:x (with-x-offset 34) :y (with-y-offset 44)
              :font-family "sans-serif" :font-size letter-size
